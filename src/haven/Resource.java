@@ -36,6 +36,8 @@ import javax.imageio.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import static haven.L10N.Bundle.*;
+
 public class Resource implements Serializable {
     private static ResCache prscache;
     public static ThreadGroup loadergroup = null;
@@ -848,7 +850,26 @@ public class Resource implements Serializable {
 	public final String t;
                 
 	public Tooltip(Message buf) {
-	    t = new String(buf.bytes(), Utils.utf8);
+	    String text = new String(buf.bytes(), Utils.utf8);
+
+	    Resource res = super.getres();
+	    if (res != null) {
+		String locText = L10N.getString(TOOLTIP, res.name, null);
+		if (locText != null) {
+		    if (locText.equals(text) || !res.name.startsWith("gfx/invobjs") ||
+			// exclude meat "conditions" since the tooltip is dynamically generated and it won't be in right order
+			text.contains("Raw ") || text.contains("Filet of ") || text.contains("Sizzling") ||
+			text.contains("Roast") || text.contains("Meat") || text.contains("Spitroast") ||
+			// exclude food conditions
+			res.name.startsWith("gfx/invobjs/food/")) {
+			this.t = locText;
+		    } else {
+			this.t = locText + " (" + text + ")";
+		    }
+		    return;
+		}
+	    }
+	    t = text;
 	}
                 
 	public void init() {}
@@ -1131,7 +1152,12 @@ public class Resource implements Serializable {
 	public final String text;
 		
 	public Pagina(Message buf) {
-	    text = new String(buf.bytes(), Utils.utf8);
+	    String text = new String(buf.bytes(), Utils.utf8);
+	    Resource res = super.getres();
+	    if (res != null){
+	    	text = L10N.getString(PAGINA, res.name, text);
+	    }
+	    this.text = text;
 	}
 		
 	public void init() {}
@@ -1140,6 +1166,7 @@ public class Resource implements Serializable {
     @LayerName("action")
     public class AButton extends Layer {
 	public final String name;
+	public final String origName;
 	public final Named parent;
 	public final char hk;
 	public final String[] ad;
@@ -1156,7 +1183,14 @@ public class Resource implements Serializable {
 		    throw(new LoadException("Illegal resource dependency", e, Resource.this));
 		}
 	    }
-	    name = buf.string();
+	    origName = buf.string();
+	    String name = origName;
+	    Resource res = super.getres();
+	    if (res != null) {
+		name = L10N.getString(ACTION, res.name, origName);
+	    }
+	    this.name = name;
+
 	    buf.string(); /* Prerequisite skill */
 	    hk = (char)buf.uint16();
 	    ad = new String[buf.uint16()];

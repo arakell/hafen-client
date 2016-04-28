@@ -51,12 +51,12 @@ public class Text {
     static {
 	std = new Foundry(sans, 10);
 
-	Font fnt = serif;
-	try {
-	    InputStream stream = Text.class.getResourceAsStream("font.ttf");
-	    fnt = Font.createFont(Font.TRUETYPE_FONT, stream);
-	} catch(FontFormatException ignored) {
-	} catch(IOException ignored) {
+	Font fnt = sans;
+	if(!L10N.needL10N()) {
+	    try {
+		InputStream stream = Text.class.getResourceAsStream("font.ttf");
+		fnt = Font.createFont(Font.TRUETYPE_FONT, stream);
+	    } catch (FontFormatException | IOException ignored) {}
 	}
 	fraktur = fnt;
     }

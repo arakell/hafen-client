@@ -34,6 +34,8 @@ import java.awt.Graphics;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static haven.L10N.Bundle.LABEL;
+
 public abstract class ItemInfo {
     static final Pattern count_patt = Pattern.compile("(?:^|[\\s])([0-9]*\\.?[0-9]+\\s*%?)");
     public final Owner owner;
@@ -136,7 +138,7 @@ public abstract class ItemInfo {
 	}
 	
 	public Name(Owner owner, String str) {
-	    this(owner, Text.render(str));
+	    this(owner, Text.render(locContentName(str)));
 	}
 	
 	public BufferedImage tipimg() {
@@ -151,11 +153,26 @@ public abstract class ItemInfo {
 		    public int order() {return(0);}
 		});
 	}
+
+	private static String locContentName(String str) {
+	    int i = str.indexOf(" l of ");
+	    if (i > 0) {
+		String contName = str.substring(i);
+		String locContName = L10N.getString(LABEL, contName);
+		if (!locContName.equals(contName)) {
+		    return str.substring(0, i) + locContName + " (" + contName + ")";
+		}
+		return str;
+	    }
+	    // TODO: handling for seeds. will require updating Contents handling below
+
+	    return str;
+	}
     }
 
     public static class Contents extends Tip {
 	public final List<ItemInfo> sub;
-	private static final Text.Line ch = Text.render("Contents:");
+	private static final Text.Line ch = Text.render(L10N.getString(LABEL, "Contents:"));
 	
 	public Contents(Owner owner, List<ItemInfo> sub) {
 	    super(owner);

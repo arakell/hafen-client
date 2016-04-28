@@ -37,7 +37,7 @@ public class Makewindow extends Widget {
     List<Spec> inputs = Collections.emptyList();
     List<Spec> outputs = Collections.emptyList();
     List<Indir<Resource>> qmod = null;
-    static final Text qmodl = Text.render("Quality:");
+    static final Text qmodl = Text.render(L10N.getString(L10N.Bundle.LABEL, "Quality:"));
     static Coord boff = new Coord(7, 9);
     final int xoff = 45, qmy = 38, outy = 65;
     public static final Text.Foundry nmf = new Text.Foundry(Text.serif, 20).aa(true);

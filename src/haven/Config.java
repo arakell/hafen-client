@@ -93,11 +93,15 @@ public class Config {
     }
 
     public static String loadFile(String name) {
+	return getString(getFileStream(name));
+    }
+
+    public static InputStream getFileStream(String name) {
 	InputStream inputStream = getFSStream(name);
 	if(inputStream == null) {
 	    inputStream = getJarStream(name);
 	}
-	return getString(inputStream);
+	return inputStream;
     }
 
     public static String loadJarFile(String name) {

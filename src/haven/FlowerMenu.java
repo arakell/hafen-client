@@ -35,6 +35,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+import static haven.L10N.Bundle.FLOWER;
 import static java.lang.Math.PI;
 
 public class FlowerMenu extends Widget {
@@ -97,7 +98,7 @@ public class FlowerMenu extends Widget {
 	public Petal(String name) {
 	    super(Coord.z);
 	    this.name = name;
-	    text = ptf.render(name, ptc);
+	    text = ptf.render(L10N.getString(FLOWER, name), ptc);
 	    resize(text.sz().x + 25, ph);
 	}
 

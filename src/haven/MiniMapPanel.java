@@ -1,5 +1,7 @@
 package haven;
 
+import static haven.L10N.Bundle.LABEL;
+
 public class MiniMapPanel extends ResizingWindow {
 
     private LocalMiniMap mmap;
@@ -10,7 +12,7 @@ public class MiniMapPanel extends ResizingWindow {
 	justclose = true;
 
 	addtwdg(add(new IButton("gfx/hud/mmap/claim", "", "-d", "-h"){
-	    {tooltip = Text.render("Display village claims");}
+	    {tooltip = Text.render(L10N.getString(LABEL, "Display village claims"));}
 	    public void click() {
 		if(ui != null && ui.gui != null && ui.gui.map != null) {
 		    if(!ui.gui.map.visol(2))
@@ -21,7 +23,7 @@ public class MiniMapPanel extends ResizingWindow {
 	    }
 	}));
 	addtwdg(add(new IButton("gfx/hud/mmap/vil", "", "-d", "-h"){
-	    {tooltip = Text.render("Display personal claims");}
+	    {tooltip = Text.render(L10N.getString(LABEL, "Display personal claims"));}
 	    public void click() {
 		if(ui != null && ui.gui != null && ui.gui.map != null) {
 		    if(!ui.gui.map.visol(0))
@@ -32,13 +34,13 @@ public class MiniMapPanel extends ResizingWindow {
 	    }
 	}));
 	addtwdg(add(new IButton("gfx/hud/mmap/view", "", "-d", "-h"){
-	    {tooltip = Text.render("Display view distance");}
+	    {tooltip = Text.render(L10N.getString(LABEL, "Show view distance box"));}
 	    public void click() {
 		CFG.MMAP_VIEW.set(!CFG.MMAP_VIEW.get());
 	    }
 	}));
 	addtwdg(add(new IButton("gfx/hud/mmap/grid", "", "-d", "-h"){
-	    {tooltip = Text.render("Display grid");}
+	    {tooltip = Text.render(L10N.getString(LABEL, "Show map grid"));}
 	    public void click() {
 		CFG.MMAP_GRID.set(!CFG.MMAP_GRID.get());
 	    }

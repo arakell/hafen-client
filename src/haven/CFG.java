@@ -7,12 +7,11 @@ import haven.QualityList.SingleType;
 import me.ender.Reflect;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CFG<T> {
+    public static final Locale DEFAULT_LANGUAGE = new Locale("en");
+
     public static final CFG<String> VERSION = new CFG<>("version", "");
     public static final CFG<Boolean> DISPLAY_KINNAMES = new CFG<>("display.kinnames", true);
     public static final CFG<Boolean> DISPLAY_FLAVOR = new CFG<>("display.flavor", true);
@@ -22,6 +21,7 @@ public class CFG<T> {
     public static final CFG<Boolean> SHOW_GOB_RADIUS = new CFG<>("display.show_gob_radius", false);
     public static final CFG<Boolean> SIMPLE_CROPS = new CFG<>("display.simple_crops", false);
     public static final CFG<Boolean> STORE_MAP = new CFG<>("general.storemap", false);
+    public static final CFG<Locale> LANGUAGE = new CFG<>("general.language", DEFAULT_LANGUAGE);
 
     public static final CFG<Boolean> SHOW_CHAT_TIMESTAMP = new CFG<>("ui.chat.timestamp", true);
     public static final CFG<Boolean> STORE_CHAT_LOGS = new CFG<>("ui.chat.logs", false);
@@ -128,6 +128,8 @@ public class CFG<T> {
 			if(enumType != null) {
 			    value = (E) Enum.valueOf(enumType, data.toString());
 			}
+		    } else if(data instanceof String && Locale.class.isAssignableFrom(defClass)){
+			value = (E) new Locale((String) data);
 		    }
 		}
 		cache.put(name.path, value);

@@ -32,6 +32,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.image.WritableRaster;
 import static haven.Inventory.invsq;
+import static haven.L10N.Bundle.*;
 
 public class GameUI extends ConsoleHost implements Console.Directory {
     public static final Text.Foundry msgfoundry = new Text.Foundry(Text.dfont, 14);
@@ -877,7 +878,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public class MainMenu extends Widget {
 	public MainMenu() {
 	    super(menubg.sz());
-	    add(new MenuButton("rbtn-inv", 9, "Inventory ($col[255,255,0]{Tab})") {
+	    add(new MenuButton("rbtn-inv", 9, L10N.getString(LABEL, "Inventory ($col[255,255,0]{Tab})")) {
 		    public void click() {
 			if((invwnd != null) && invwnd.show(!invwnd.visible)) {
 			    invwnd.raise();
@@ -885,7 +886,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 		    }
 		}, 0, 0);
-	    add(new MenuButton("rbtn-equ", 5, "Equipment ($col[255,255,0]{Ctrl+E})") {
+	    add(new MenuButton("rbtn-equ", 5, L10N.getString(LABEL, "Equipment ($col[255,255,0]{Ctrl+E})")) {
 		    public void click() {
 			if((equwnd != null) && equwnd.show(!equwnd.visible)) {
 			    equwnd.raise();
@@ -893,7 +894,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 		    }
 		}, 0, 0);
-	    add(new MenuButton("rbtn-chr", 20, "Character Sheet ($col[255,255,0]{Ctrl+T})") {
+	    add(new MenuButton("rbtn-chr", 20, L10N.getString(LABEL, "Character Sheet ($col[255,255,0]{Ctrl+T})")) {
 		    public void click() {
 			if((chrwdg != null) && chrwdg.show(!chrwdg.visible)) {
 			    chrwdg.raise();
@@ -901,7 +902,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 		    }
 		}, 0, 0);
-	    add(new MenuButton("rbtn-bud", 2, "Kith & Kin ($col[255,255,0]{Ctrl+B})") {
+	    add(new MenuButton("rbtn-bud", 2, L10N.getString(LABEL, "Kith & Kin ($col[255,255,0]{Ctrl+B})")) {
 		    public void click() {
 			if(zerg.show(!zerg.visible)) {
 			    zerg.raise();
@@ -910,7 +911,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 			}
 		    }
 		}, 0, 0);
-	    add(new MenuButton("rbtn-opt", 15, "Options ($col[255,255,0]{Ctrl+O})") {
+	    add(new MenuButton("rbtn-opt", 15, L10N.getString(LABEL, "Options ($col[255,255,0]{Ctrl+O})")) {
 		    public void click() {
 			if(opts.show(!opts.visible)) {
 			    opts.raise();
@@ -1013,6 +1014,9 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public void msg(String msg, Color color, Color logcol) {
 	msgtime = System.currentTimeMillis();
 	lastmsg = msgfoundry.render(msg, color);
+
+	msg = L10N.getString(MSG, msg);
+
 	syslog.append(msg, logcol);
     }
 
@@ -1180,7 +1184,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	    adda(new IButton("gfx/hud/hb-btn-chat", "", "-d", "-h") {
 		    Tex glow;
 		    {
-			this.tooltip = RichText.render("Chat ($col[255,255,0]{Ctrl+C})", 0);
+			this.tooltip = RichText.render(L10N.getString(LABEL, "Chat ($col[255,255,0]{Ctrl+C})"), 0);
 			glow = new TexI(PUtils.rasterimg(PUtils.blurmask(up.getRaster(), 2, 2, Color.WHITE)));
 		    }
 

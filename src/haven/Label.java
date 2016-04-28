@@ -27,8 +27,14 @@
 package haven;
 
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static haven.L10N.Bundle.LABEL;
 
 public class Label extends Widget {
+    private static final Pattern contPattern = Pattern.compile("([0-9]+\\.?[0-9]*)", Pattern.CASE_INSENSITIVE);
+
     Text.Foundry f;
     Text text;
     String texts;
@@ -50,6 +56,7 @@ public class Label extends Widget {
 	
     public Label(String text, int w, Text.Foundry f) {
 	super(Coord.z);
+	text = L10N.getString(LABEL, text);
 	this.f = f;
 	this.text = f.renderwrap(texts = text, this.col, w);
 	sz = this.text.sz();
@@ -57,6 +64,7 @@ public class Label extends Widget {
 
     public Label(String text, Text.Foundry f) {
 	super(Coord.z);
+	text = L10N.getString(LABEL, text);
 	this.f = f;
 	this.text = f.render(texts = text, this.col);
 	sz = this.text.sz();
@@ -71,6 +79,14 @@ public class Label extends Widget {
     }
 	
     public void settext(String text) {
+	text = L10N.getString(LABEL, text);
+	if(L10N.needL10N() && text.startsWith("Contents:")) {
+	    Matcher matcher = contPattern.matcher(text);
+	    if(matcher.find()) {
+		String num = matcher.group(1);
+		text = String.format(L10N.getString(LABEL, text.replace(num, "%s")), num);
+	    }
+	}
 	this.text = f.render(texts = text, col);
 	sz = this.text.sz();
     }

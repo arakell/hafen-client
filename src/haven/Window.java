@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import static haven.L10N.Bundle.WINDOW;
 import static haven.PUtils.*;
 
 public class Window extends Widget implements DTarget {
@@ -105,6 +106,9 @@ public class Window extends Widget implements DTarget {
 	this.rbo = rbo;
 	this.mrgn = lg?dlmrgn:dsmrgn;
 	cbtn = add(new IButton(cbtni[0], cbtni[1], cbtni[2]));
+
+	cap = L10N.getString(WINDOW, cap);
+
 	chcap(cap);
 	resize(sz);
 	setfocustab(true);

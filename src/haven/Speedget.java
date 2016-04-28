@@ -28,6 +28,8 @@ package haven;
 
 import java.awt.event.KeyEvent;
 
+import static haven.L10N.Bundle.LABEL;
+
 public class Speedget extends Widget {
     public static final Tex imgs[][];
     public static final String tips[];
@@ -112,7 +114,7 @@ public class Speedget extends Widget {
 
     public Object tooltip(Coord c, Widget prev) {
 	if((cur >= 0) && (cur < tips.length))
-	    return(String.format("Selected speed: " + tips[cur]));
+	    return(String.format(L10N.getString(LABEL, "Selected speed: ") + tips[cur]));
 	return(null);
     }
 

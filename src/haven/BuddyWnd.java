@@ -30,6 +30,8 @@ import java.awt.Color;
 import java.util.*;
 import java.text.Collator;
 
+import static haven.L10N.Bundle.LABEL;
+
 public class BuddyWnd extends Widget implements Iterable<BuddyWnd.Buddy> {
     private List<Buddy> buddies = new ArrayList<Buddy>();
     private Map<Integer, Buddy> idmap = new HashMap<Integer, Buddy>();
@@ -213,7 +215,7 @@ public class BuddyWnd extends Widget implements Iterable<BuddyWnd.Buddy> {
 	public void draw(GOut g) {
 	    super.draw(g);
 	    if(buddies.size() == 0)
-		g.atext("You are alone in the world", sz.div(2), 0.5, 0.5);
+		g.atext(L10N.getString(LABEL, "You are alone in the world"), sz.div(2), 0.5, 0.5);
 	}
 	
 	public void change(Buddy b) {
@@ -303,7 +305,7 @@ public class BuddyWnd extends Widget implements Iterable<BuddyWnd.Buddy> {
 	super(new Coord(200, 380));
 	setfocustab(true);
 	int y = 0;
-	add(new Img(CharWnd.catf.render("Kin").tex()), new Coord(0, 0));
+	add(new Img(CharWnd.catf.render(L10N.getString(LABEL, "Kin")).tex()), new Coord(0, 0));
 	y += 35;
 
 	bl = add(new BuddyList(200 - Window.wbox.bisz().x, 7), new Coord(Window.wbox.btloff().x, y));

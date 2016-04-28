@@ -29,6 +29,8 @@ package haven;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import static haven.L10N.Bundle.LABEL;
+
 public class Curiosity extends ItemInfo.Tip {
     public final int exp, mw, enc;
 
@@ -41,9 +43,9 @@ public class Curiosity extends ItemInfo.Tip {
 
     public BufferedImage tipimg() {
 	StringBuilder buf = new StringBuilder();
-	buf.append(String.format("Learning points: $col[192,192,255]{%s}\nMental weight: $col[255,192,255]{%d}\n", Utils.thformat(exp), mw));
+	buf.append(String.format(L10N.getString(LABEL, "Learning points: $col[192,192,255]{%s}\nMental weight: $col[255,192,255]{%d}\n"), Utils.thformat(exp), mw));
 	if(enc > 0)
-	    buf.append(String.format("Experience cost: $col[255,255,192]{%d}\n", enc));
+	    buf.append(String.format(L10N.getString(LABEL, "Experience cost: $col[255,255,192]{%d}\n"), enc));
 	return(RichText.render(buf.toString(), 0).img);
     }
 }

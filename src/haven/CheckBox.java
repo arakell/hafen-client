@@ -26,6 +26,8 @@
 
 package haven;
 
+import static haven.L10N.Bundle.LABEL;
+
 public class CheckBox extends Widget {
     public static final Tex lbox = Resource.loadtex("gfx/hud/chkbox"), lmark = Resource.loadtex("gfx/hud/chkmark");
     public static final Tex sbox = Resource.loadtex("gfx/hud/chkboxs"), smark = Resource.loadtex("gfx/hud/chkmarks");
@@ -45,6 +47,7 @@ public class CheckBox extends Widget {
     }
 
     public CheckBox(String lbl, boolean lg) {
+	lbl = L10N.getString(LABEL, lbl);
 	this.lbl = Text.std.render(lbl, java.awt.Color.WHITE);
 	if(lg) {
 	    box = lbox; mark = lmark;

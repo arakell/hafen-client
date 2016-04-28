@@ -31,6 +31,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.font.TextAttribute;
 import java.util.*;
+
+import static haven.L10N.Bundle.*;
 import static haven.Window.wbox;
 import static haven.PUtils.*;
 import haven.resutil.FoodInfo;
@@ -82,7 +84,7 @@ public class CharWnd extends Window {
 		int ver = buf.uint8();
 		if(ver == 1) {
 		    col = new Color(buf.uint8(), buf.uint8(), buf.uint8(), buf.uint8());
-		    nm = buf.string();
+		    nm = L10N.getString(TOOLTIP, res.name, buf.string());
 		    sort = buf.int16();
 		} else {
 		    throw(new Resource.LoadException("unknown foodev version: " + ver, res));
@@ -221,7 +223,7 @@ public class CharWnd extends Window {
 		    cur = ItemInfo.catimgs(0, cur, ln);
 		    sum += el.a;
 		}
-		cur = ItemInfo.catimgs(0, cur, Text.render(String.format("Total: %s/%s", Utils.odformat2(sum, 2), Utils.odformat(cap, 2))).img);
+		cur = ItemInfo.catimgs(0, cur, Text.render(String.format(L10N.getString(LABEL, "Total: %s/%s"), Utils.odformat2(sum, 2), Utils.odformat(cap, 2))).img);
 		rtip = new TexI(cur);
 	    }
 	    return(rtip);
@@ -254,7 +256,7 @@ public class CharWnd extends Window {
 	    this.glut = ((Number)args[a++]).doubleValue();
 	    this.lglut = ((Number)args[a++]).doubleValue();
 	    this.gmod = ((Number)args[a++]).doubleValue();
-	    this.lbl = (String)args[a++];
+	    this.lbl = L10N.getString(LABEL, (String)args[a++]);
 	    this.bg = (Color)args[a++];
 	    this.fg = (Color)args[a++];
 	    rtip = null;
@@ -263,7 +265,7 @@ public class CharWnd extends Window {
 	private Tex rtip = null;
 	public Object tooltip(Coord c, Widget prev) {
 	    if(rtip == null) {
-		rtip = RichText.render(String.format("%s: %d%%\nFood efficacy: %d%%", lbl, Math.round((lglut) * 100), Math.round(gmod * 100)), -1).tex();
+		rtip = RichText.render(String.format(L10N.getString(LABEL, "%s: %d%%\nFood efficacy: %d%%"), lbl, Math.round((lglut) * 100), Math.round(gmod * 100)), -1).tex();
 	    }
 	    return(rtip);
 	}
@@ -460,7 +462,7 @@ public class CharWnd extends Window {
 	public void lvlup() {
 	    lvlt = 1.0;
 	    if(ui != null){
-		ui.message(String.format("Your %s leveled up!", rnm.text), GameUI.MsgType.GOOD);
+		ui.message(String.format(L10N.getString(MSG, "Your %s leveled up!"), rnm.text), GameUI.MsgType.GOOD);
 	    }
 	}
     }
@@ -709,7 +711,7 @@ public class CharWnd extends Window {
 	    Resource res = this.res.get();
 	    buf.append("$img[" + res.name + "]\n\n");
 	    buf.append("$b{$font[serif,16]{" + res.layer(Resource.tooltip).t + "}}\n\n\n");
-	    buf.append("Cost: " + cost + "\n\n");
+	    buf.append(L10N.getString(LABEL, "Cost: ") + cost + "\n\n");
 	    buf.append(res.layer(Resource.pagina).text);
 	    return(buf.toString());
 	}
@@ -742,7 +744,7 @@ public class CharWnd extends Window {
 	    buf.append("$img[" + res.name + "]\n\n");
 	    buf.append("$b{$font[serif,16]{" + res.layer(Resource.tooltip).t + "}}\n\n\n");
 	    if(score > 0)
-		buf.append("Experience points: " + Utils.thformat(score) + "\n\n");
+		buf.append(L10N.getString(LABEL, "Experience points: ") + Utils.thformat(score) + "\n\n");
 	    buf.append(res.layer(Resource.pagina).text);
 	    return(buf.toString());
 	}
@@ -845,13 +847,13 @@ public class CharWnd extends Window {
 	    public String status;
 
 	    public Condition(String desc, boolean done, String status) {
-		this.desc = desc;
+		this.desc = L10N.getString(LABEL, desc);
 		this.done = done;
-		this.status = status;
+		this.status = L10N.getString(LABEL, status);
 	    }
 	}
 
-	private static final Tex qcmp = catf.render("Quest completed").tex();
+	private static final Tex qcmp = catf.render(L10N.getString(LABEL, "Quest completed")).tex();
 	public void done(GameUI parent) {
 	    parent.add(new Widget() {
 		    double a = 0.0;
@@ -1450,7 +1452,7 @@ public class CharWnd extends Window {
 	    int x = 5, y = 0;
 
 	    battr = tabs.add();
-	    battr.add(new Img(catf.render("Base Attributes").tex()), new Coord(x - 5, y)); y += 35;
+	    battr.add(new Img(catf.render(L10N.getString(LABEL, "Base Attributes")).tex()), new Coord(x - 5, y)); y += 35;
 	    base = new ArrayList<Attr>();
 	    Attr aw;
 	    base.add(aw = battr.add(new Attr(glob, "str", every), wbox.btloff().add(x, y))); y += aw.sz.y;
@@ -1463,15 +1465,15 @@ public class CharWnd extends Window {
 	    base.add(aw = battr.add(new Attr(glob, "psy", other), wbox.btloff().add(x, y))); y += aw.sz.y;
 	    Frame.around(battr, base);
 	    y += 24;
-	    battr.add(new Img(catf.render("Food Event Points").tex()), new Coord(x - 5, y)); y += 35;
+	    battr.add(new Img(catf.render(L10N.getString(LABEL, "Food Event Points")).tex()), new Coord(x - 5, y)); y += 35;
 	    feps = battr.add(new FoodMeter(), new Coord(x, y));
 
 	    x = 260; y = 0;
-	    battr.add(new Img(catf.render("Food Satiations").tex()), new Coord(x - 5, y)); y += 35;
+	    battr.add(new Img(catf.render(L10N.getString(LABEL, "Food Satiations")).tex()), new Coord(x - 5, y)); y += 35;
 	    cons = battr.add(new Constipations(attrw, base.size()), wbox.btloff().add(x, y)); y += cons.sz.y;
 	    Frame.around(battr, Collections.singletonList(cons));
 	    y += 24;
-	    battr.add(new Img(catf.render("Hunger Level").tex()), new Coord(x - 5, y)); y += 35;
+	    battr.add(new Img(catf.render(L10N.getString(LABEL, "Hunger Level")).tex()), new Coord(x - 5, y)); y += 35;
 	    glut = battr.add(new GlutMeter(), new Coord(x, y));
 	}
 
@@ -1479,7 +1481,7 @@ public class CharWnd extends Window {
 	    int x = 5, y = 0;
 
 	    sattr = tabs.add();
-	    sattr.add(new Img(catf.render("Abilities").tex()), new Coord(x - 5, y)); y += 35;
+	    sattr.add(new Img(catf.render(L10N.getString(LABEL, "Abilities")).tex()), new Coord(x - 5, y)); y += 35;
 	    skill = new ArrayList<SAttr>();
 	    SAttr aw;
 	    skill.add(aw = sattr.add(new SAttr(glob, "unarmed", every), wbox.btloff().add(x, y))); y += aw.sz.y;
@@ -1496,7 +1498,7 @@ public class CharWnd extends Window {
 	    Frame.around(sattr, skill);
 
 	    x = 260; y = 0;
-	    sattr.add(new Img(catf.render("Study Report").tex()), new Coord(x - 5, y)); y += 35;
+	    sattr.add(new Img(catf.render(L10N.getString(LABEL, "Study Report")).tex()), new Coord(x - 5, y)); y += 35;
 	    y += 151;
 	    int rx = x + attrw - 10;
 	    Frame.around(sattr, Area.sized(new Coord(x, y).add(wbox.btloff()), new Coord(attrw, 80)));
@@ -1541,13 +1543,13 @@ public class CharWnd extends Window {
 	    int x = 5, y = 0;
 
 	    skills = tabs.add();
-	    skills.add(new Img(catf.render("Lore & Skills").tex()), new Coord(x - 5, y)); y += 35;
+	    skills.add(new Img(catf.render(L10N.getString(LABEL, "Lore & Skills")).tex()), new Coord(x - 5, y)); y += 35;
 	    final LoadingTextBox info = skills.add(new LoadingTextBox(new Coord(attrw, 260), "", ifnd), new Coord(x, y).add(wbox.btloff()));
 	    info.bg = new Color(0, 0, 0, 128);
 	    Frame.around(skills, Collections.singletonList(info));
 
 	    x = 260; y = 0;
-	    skills.add(new Img(catf.render("Entries").tex()), new Coord(x - 5, y)); y += 35;
+	    skills.add(new Img(catf.render(L10N.getString(LABEL, "Entries")).tex()), new Coord(x - 5, y)); y += 35;
 	    Tabs lists = new Tabs(new Coord(x, y), new Coord(attrw + wbox.bisz().x, 0), skills);
 	    Tabs.Tab nsk = lists.add();
 	    {
@@ -1637,7 +1639,7 @@ public class CharWnd extends Window {
 	Tabs.Tab wounds;
 	{
 	    wounds = tabs.add();
-	    wounds.add(new Img(catf.render("Health & Wounds").tex()), new Coord(0, 0));
+	    wounds.add(new Img(catf.render(L10N.getString(LABEL, "Health & Wounds")).tex()), new Coord(0, 0));
 	    this.wounds = wounds.add(new WoundList(attrw, 12), new Coord(260, 35).add(wbox.btloff()));
 	    Frame.around(wounds, Collections.singletonList(this.wounds));
 	    woundbox = wounds.add(new Widget(new Coord(attrw, this.wounds.sz.y)) {
@@ -1659,7 +1661,7 @@ public class CharWnd extends Window {
 	Tabs.Tab quests;
 	{
 	    quests = tabs.add();
-	    quests.add(new Img(catf.render("Quest Log").tex()), new Coord(0, 0));
+	    quests.add(new Img(catf.render(L10N.getString(LABEL, "Quest Log")).tex()), new Coord(0, 0));
 	    questbox = quests.add(new Widget(new Coord(attrw, 260)) {
 		    public void draw(GOut g) {
 			g.chcolor(0, 0, 0, 128);
@@ -1722,17 +1724,17 @@ public class CharWnd extends Window {
 	    fgt = tabs.add();
 
 	    prev = add(new TB("battr", battr), new Coord(tabs.c.x + 5, tabs.c.y + tabs.sz.y + 10));
-	    prev.settip("Base Attributes");
+	    prev.settip(L10N.getString(LABEL, "Base Attributes"));
 	    prev = add(new TB("sattr", sattr), new Coord(prev.c.x + prev.sz.x + 5, prev.c.y));
-	    prev.settip("Abilities");
+	    prev.settip(L10N.getString(LABEL, "Abilities"));
 	    prev = add(new TB("skill", skills), new Coord(prev.c.x + prev.sz.x + 5, prev.c.y));
-	    prev.settip("Lore & Skills");
+	    prev.settip(L10N.getString(LABEL, "Lore & Skills"));
 	    prev = add(new TB("fgt", fgt), new Coord(prev.c.x + prev.sz.x + 5, prev.c.y));
-	    prev.settip("Martial Arts & Combat Schools");
+	    prev.settip(L10N.getString(LABEL, "Martial Arts & Combat Schools"));
 	    prev = add(new TB("wound", wounds), new Coord(prev.c.x + prev.sz.x + 5, prev.c.y));
-	    prev.settip("Health & Wounds");
+	    prev.settip(L10N.getString(LABEL, "Health & Wounds"));
 	    prev = add(new TB("quest", quests), new Coord(prev.c.x + prev.sz.x + 5, prev.c.y));
-	    prev.settip("Quest Log");
+	    prev.settip(L10N.getString(LABEL, "Quest Log"));
 	}
 
 	resize(contentsz().add(15, 10));

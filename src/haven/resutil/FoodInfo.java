@@ -31,6 +31,8 @@ import java.util.*;
 import java.awt.Color;
 import java.awt.image.*;
 
+import static haven.L10N.Bundle.LABEL;
+
 public class FoodInfo extends ItemInfo.Tip {
     public final double end, glut;
     public final Event[] evs;
@@ -66,7 +68,10 @@ public class FoodInfo extends ItemInfo.Tip {
     }
 
     public BufferedImage longtip() {
-	BufferedImage base = RichText.render(String.format("Energy: $col[128,128,255]{%s%%}, Hunger: $col[255,192,128]{%s%%}", Utils.odformat2(end * 100, 2), Utils.odformat2(glut * 100, 2)), 0).img;
+	String infoStr = L10N.getString(LABEL, "Energy: $col[128,128,255]{%s%%}, Hunger: $col[255,192,128]{%s%%}");
+	String chanceStr = L10N.getString(LABEL, "$i{($col[192,192,255]{%d%%} chance)}");
+
+	BufferedImage base = RichText.render(String.format(infoStr, Utils.odformat2(end * 100, 2), Utils.odformat2(glut * 100, 2)), 0).img;
 	Collection<BufferedImage> imgs = new LinkedList<BufferedImage>();
 	imgs.add(base);
 	for(int i = 0; i < evs.length; i++) {
@@ -76,7 +81,7 @@ public class FoodInfo extends ItemInfo.Tip {
 	for(int i = 0; i < efs.length; i++) {
 	    BufferedImage efi = ItemInfo.longtip(efs[i].info);
 	    if(efs[i].p != 1)
-		efi = catimgsh(5, efi, RichText.render(String.format("$i{($col[192,192,255]{%d%%} chance)}", (int)Math.round(efs[i].p * 100)), 0).img);
+		efi = catimgsh(5, efi, RichText.render(String.format(chanceStr, (int)Math.round(efs[i].p * 100)), 0).img);
 	    imgs.add(efi);
 	}
 	return(catimgs(0, imgs.toArray(new BufferedImage[0])));

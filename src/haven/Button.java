@@ -31,6 +31,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 
+import static haven.L10N.Bundle.BUTTON;
+
 public class Button extends SIWidget {
     public static final BufferedImage bl = Resource.loadimg("gfx/hud/buttons/tbtn/left");
     public static final BufferedImage br = Resource.loadimg("gfx/hud/buttons/tbtn/right");
@@ -46,7 +48,7 @@ public class Button extends SIWidget {
     public boolean lg;
     public Text text;
     public BufferedImage cont;
-    static Text.Foundry tf = new Text.Foundry(Text.serif.deriveFont(Font.BOLD, 12)).aa(true);
+    static Text.Foundry tf = new Text.Foundry((L10N.needL10N() ? Text.sans : Text.serif).deriveFont(Font.BOLD, L10N.needL10N() ? 10 : 12)).aa(true);
     static Text.Furnace nf = new PUtils.BlurFurn(new PUtils.TexFurn(tf, Window.ctex), 1, 1, new Color(80, 40, 0));
     boolean a = false;
     UI.Grab d = null;
@@ -65,6 +67,7 @@ public class Button extends SIWidget {
     }
 	
     public static Button wrapped(int w, String text) {
+	text = L10N.getString(BUTTON, text);
 	Button ret = new Button(w, tf.renderwrap(text, w - 10));
 	return(ret);
     }
@@ -80,16 +83,32 @@ public class Button extends SIWidget {
 
     public Button(int w, String text, boolean lg) {
 	this(w, lg);
+
+	String original = text;
+	text = L10N.getString(BUTTON, text);
+
 	this.text = nf.render(text);
 	this.cont = this.text.img;
+
+	if(!original.equals(text)){
+	    this.resize(new Coord(Math.max(w, this.text.sz().x + 10), sz.y));
+	}
     }
 
     public Button(int w, String text) {
 	this(w);
+
+	String original = text;
+	text = L10N.getString(BUTTON, text);
+
 	this.text = nf.render(text);
 	this.cont = this.text.img;
+
+	if(!original.equals(text)){
+	    this.resize(new Coord(Math.max(w, this.text.sz().x + 10), sz.y));
+	}
     }
-        
+
     public Button(int w, Text text) {
 	this(w);
 	this.text = text;
@@ -122,12 +141,14 @@ public class Button extends SIWidget {
     }
 	
     public void change(String text, Color col) {
+	text = L10N.getString(BUTTON, text);
 	this.text = tf.render(text, col);
 	this.cont = this.text.img;
 	redraw();
     }
     
     public void change(String text) {
+	text = L10N.getString(BUTTON, text);
 	this.text = nf.render(text);
 	this.cont = this.text.img;
     }
