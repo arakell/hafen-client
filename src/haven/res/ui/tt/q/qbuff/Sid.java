@@ -7,6 +7,6 @@ final class Sid implements ItemInfo.Layout.ID<Summary> {
     }
 
     public Summary make() {
-        return new Summary();
+	return new Summary();
     }
 }

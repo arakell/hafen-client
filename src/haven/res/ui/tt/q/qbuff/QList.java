@@ -10,10 +10,10 @@ public abstract class QList extends ItemInfo.Tip {
     final List<QBuff> ql = new ArrayList<>();
 
     QList() {
-        super(null);
+	super(null);
     }
 
     void sort() {
-        Collections.sort(this.ql, (a, b) -> a.name.compareTo(b.name));
+	Collections.sort(this.ql, (a, b) -> a.name.compareTo(b.name));
     }
 }

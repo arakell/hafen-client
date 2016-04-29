@@ -9,8 +9,8 @@ public class Satiate implements InfoFactory {
     }
 
     public ItemInfo build(Owner owner, Object... args) {
-        Indir icon = owner.glob().sess.getres((Integer) args[1]);
-        double val = ((Number) args[2]).doubleValue();
-        return new SatiateTip(this, owner, icon, val);
+	Indir icon = owner.glob().sess.getres((Integer) args[1]);
+	double val = ((Number) args[2]).doubleValue();
+	return new SatiateTip(this, owner, icon, val);
     }
 }

@@ -7,6 +7,6 @@ final class Tid implements ItemInfo.Layout.ID<Table> {
     }
 
     public Table make() {
-        return new Table();
+	return new Table();
     }
 }
