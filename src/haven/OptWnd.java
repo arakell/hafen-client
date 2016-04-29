@@ -30,6 +30,8 @@ package haven;
 import java.util.LinkedList;
 import java.util.Locale;
 
+import static haven.L10N.Bundle.LABEL;
+
 public class OptWnd extends Window {
     public static final Coord PANEL_POS = new Coord(220, 30);
     public static final Coord Q_TYPE_PADDING = new Coord(3, 0);
@@ -342,7 +344,9 @@ public class OptWnd extends Window {
     private void initGeneralPanel() {
 	int x = 0;
 	int y = 0, my = 0;
-	general.add(new Dropbox<Locale>(100, 6, 16) {
+
+	Widget w = general.add(new Label(L10N.getString(LABEL, "Language (req. restart):")));
+	general.add(new Dropbox<Locale>(64, 6, 16) {
 	    @Override
 	    protected Locale listitem(int i) {
 		return L10N.locales.get(i);
@@ -365,7 +369,7 @@ public class OptWnd extends Window {
 		    CFG.LANGUAGE.set(item);
 		}
 	    }
-	}, x, y).sel = CFG.LANGUAGE.get();
+	}, x + w.sz.x + 5, y).sel = CFG.LANGUAGE.get();
 
 	y += 25;
 	general.add(new CFGBox("Store minimap tiles", CFG.STORE_MAP), x, y);
